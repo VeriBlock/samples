@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 echo "This script will generate a directory, install the latest nodecore bootstrap, and start a docker image which will start nodecore. Make sure you are running this as root!"
 read -p "Continue (y/n)?" choice
@@ -66,7 +66,7 @@ wget -P /root/nc_data/mainnet $LATEST_BOOTSTRAP
 
 echo "========================="
 unzip /root/nc_data/mainnet/$BOOTSTRAP -d /root/nc_data/mainnet/
- echo "bootstrap unzipped!"
+echo "bootstrap unzipped!"
 
 echo "========================="
 echo "rpc.whitelist.addresses=172.17.0.1" > /root/nc_data/nodecore.properties
