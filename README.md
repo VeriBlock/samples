@@ -12,5 +12,10 @@ A sample C# console application that utilizes the HTTP API embedded in the PoP m
 ### pop/pop-api-client/python
 A sample Python API library for interacting with the PoP miners HTTP API.
 
+## NodeCore
+
 ### scripts/nodecore-install.sh
 A script to download and install the latest version of NodeCore with or without bootstrap for Ubuntu and CentOS
+
+### nodecore/nodecore-api-client/python
+A sample Python API library for interacting with the NodeCore HTTP API.
