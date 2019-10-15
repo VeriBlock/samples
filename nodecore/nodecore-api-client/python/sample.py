@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import nodecore_api
 import json
 
@@ -49,3 +51,30 @@ print(pretty(balance))
 # Get State Info
 stateinfo = api.getstateinfo()
 print(pretty(stateinfo))
+
+# Get Blockchains
+blockchains = api.getblockchains()
+print(pretty(blockchains))
+
+# Get Block Times
+blocktimes = api.getblocktimes(5)
+print(pretty(blocktimes))
+
+# Get Diagnostic Info
+diaginfo = api.getdiagnosticinfo()
+print(pretty(diaginfo))
+
+# Get Endorsements of Block
+#blockHash = '000000000000A0D547D360D849E0DCFC6F7B4543274AFF25'
+#filter = ['hash', blockHash]
+#filter = ['number', '552214']
+#filter = ['index', '0']
+#endorsements = api.getendorsementsofblock(filter)
+#print(pretty(endorsements))
+
+# Get Blocks
+blockHash = '000000000000A0D547D360D849E0DCFC6F7B4543274AFF25'
+#filters = ['number','552214']
+filters = ['hash', blockHash]
+blocks = api.getblocks(1, filters)
+print(pretty(blocks))
