@@ -137,16 +137,13 @@ class nodecore_api:
 
     def getblocks(self, searchLength, filters):
 
-        hash = filters[0]
-        index = filters[1]
-        number = filters[2]
+        filterType = filters[0]
+        filterValue = filters[1]
 
         params = {
             "searchLength": searchLength,
             "filters": [{
-                "hash": hash,
-                "index": index,
-                "number": number
+                filterType: filterValue
             }],
         }
         return self.doRequest("getblocks", params)
