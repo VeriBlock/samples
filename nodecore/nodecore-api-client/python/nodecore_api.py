@@ -170,16 +170,13 @@ class nodecore_api:
 
     def getendorsementsofblock(self, filter):
 
-        hash = filter[0]
-        index = filter[1]
-        number = filter[2]
+        type = filter[0]
+        value = filter[1]
 
         params = {
-            "filter": [{
-                "hash": hash,
-                "index": index,
-                "number": number
-            }]
+            "filter": {
+                type: value,
+            }
         }
         return self.doRequest("getendorsementsofblock", params)
 
