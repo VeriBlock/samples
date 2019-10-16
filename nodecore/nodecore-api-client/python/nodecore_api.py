@@ -97,7 +97,7 @@ class nodecore_api:
         params = {
             "address": address
         }
-        return self.doRequest("drainaddress", params)
+        return self.doRequest("dumpprivatekey", params)
 
     def encryptwallet(self, passphrase):
         params = {
