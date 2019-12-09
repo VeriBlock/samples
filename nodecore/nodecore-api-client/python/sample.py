@@ -153,15 +153,15 @@ api = nodecore_api.nodecore_api(host, rpc_password, True)
 #print(pretty(transactions))
 
 # Get Wallet Transactions by Address
-address = 'V7TMHDQC8myywuGbQs5ADTrk14fajz'
+#address = 'V7TMHDQC8myywuGbQs5ADTrk14fajz'
 # LIST = 0, QUERY = 1
-requestType = 1
+#requestType = 1
 # NOT_SET = 0, POW_COINBASE = 1, POP_COINBASE = 2, BOTH_COINBASE = 3, SENT = 4, RECEIVED = 5, SENT_AND_RECEIVED = 6, POP = 7
-transactionType = 6
+#transactionType = 6
 # pageNumber=1, resultsPerPage=5
-page = [1,5]
-transactions = api.getwallettransactionsbyaddress(address, requestType, transactionType, page)
-print(pretty(transactions))
+#page = [1,5]
+#transactions = api.getwallettransactionsbyaddress(address, requestType, transactionType, page)
+#print(pretty(transactions))
 
 # Import Private Key
 
@@ -188,6 +188,14 @@ print(pretty(transactions))
 # Send Alt Chain Endorsement
 
 # Send Coins
+
+source = 'V3TCJ69TfVVELGJi9H5c2m3smAiWeP'
+dest = 'V7TMHDQC8myywuGbQs5ADTrk14fajz'
+# Specify amount in VBK
+amount = 100
+amount = amount * 100000000
+send = api.sendcoins(source, dest, amount)
+print(pretty(send))
 
 # Set Allowed
 
