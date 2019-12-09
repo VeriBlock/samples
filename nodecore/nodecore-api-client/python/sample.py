@@ -139,6 +139,9 @@ api = nodecore_api.nodecore_api(host, rpc_password, True)
 #print(pretty(stateinfo))
 
 # Get Transactions
+ids = 'D634C6E7D7E19F083068DAB4ED9499EE312EF4ADACCCD74B496F4DE22ED527DC'
+transactions = api.gettransactions(ids)
+print(pretty(transactions))
 
 # Get VeriBlock Publications
 
@@ -189,13 +192,13 @@ api = nodecore_api.nodecore_api(host, rpc_password, True)
 
 # Send Coins
 
-source = 'V3TCJ69TfVVELGJi9H5c2m3smAiWeP'
-dest = 'V7TMHDQC8myywuGbQs5ADTrk14fajz'
+#source = 'V3TCJ69TfVVELGJi9H5c2m3smAiWeP'
+#dest = 'V7TMHDQC8myywuGbQs5ADTrk14fajz'
 # Specify amount in VBK
-amount = 100
-amount = amount * 100000000
-send = api.sendcoins(source, dest, amount)
-print(pretty(send))
+#amount = 100
+#amount = amount * 100000000
+#send = api.sendcoins(source, dest, amount)
+#print(pretty(send))
 
 # Set Allowed
 

@@ -252,12 +252,13 @@ class nodecore_api:
         params = {}
         return self.doRequest("getstateinfo", params)
 
-    def gettransactions(self, searchLength, ids):
+    def gettransactions(self, ids):
         params = {
-            "searchLength": searchLength,
-            "ids": ids
+            "searchLength": 0,
+            "ids": [ ids ]
+
         }
-        return self.doRequest("gettransaction", params)
+        return self.doRequest("gettransactions", params)
 
     def getveriblockpublications(self, keystoneHash, contextHash):
         params = {
