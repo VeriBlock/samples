@@ -9,7 +9,7 @@ def pretty(self):
 def convertAtomic(self):
     return int(self)/100000000
 
-host = 'http://127.0.0.1:10600'
+host = 'http://192.168.0.62:10600'
 
 rpc_password = ''
 
@@ -56,7 +56,7 @@ api = nodecore_api.nodecore_api(host, rpc_password, True)
 # Generate Multisig Address
 
 # Get Balance of one address or multiple.
-#addresses = ['address_one']
+#addresses = ['V3TCJ69TfVVELGJi9H5c2m3smAiWeP']
 #addresses = ['address_one', 'address_two']
 #balance = api.getbalance(addresses)
 #print(pretty(balance))
@@ -71,11 +71,11 @@ api = nodecore_api.nodecore_api(host, rpc_password, True)
 
 # Get Blocks
 #blockHash = '000000181E25345C75A5176696FF5E989F1E86786A51EC42'
-#filters = ['number','552214']
+#filters = ['index','80000']
 #filters = ['hash', blockHash]
 #blocks = api.getblocks(1, filters)
 #print(pretty(blocks))
-
+#print(blocks['header'])
 # Get Block Template
 
 # Get Block Times
@@ -121,8 +121,8 @@ api = nodecore_api.nodecore_api(host, rpc_password, True)
 #print(pretty(pendingtxs))
 
 # Get Pool State
-poolstate = api.getpoolstate()
-print(pretty(poolstate))
+#poolstate = api.getpoolstate()
+#print(pretty(poolstate))
 
 # Get PoP
 
@@ -143,6 +143,14 @@ print(pretty(poolstate))
 # Get VeriBlock Publications
 
 # Get Wallet Transactions
+# LIST = 0, QUERY = 1
+requestType = 0
+# NOT_SET = 0, POW_COINBASE = 1, POP_COINBASE = 2, BOTH_COINBASE = 3, SENT = 4, RECEIVED = 5, SENT_AND_RECEIVED = 6, POP = 7
+transactionType = 6
+# pageNumber=1, resultsPerPage=5
+page = [1,5]
+transactions = api.getwallettransactions(requestType, transactionType, page)
+print(pretty(transactions))
 
 # Import Private Key
 

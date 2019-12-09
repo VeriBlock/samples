@@ -266,38 +266,18 @@ class nodecore_api:
         }
         return self.doRequest("getveriblockpublications", params)
 
-    def getwallettransactions(self, requestType, address, transactionType, status, amountFilter, timestampFilter, page):
-
-        amountFilterOperator = amountFilter[0]
-        amountFilterValue = amountFilter[1]
-        amountFilterSecondaryValue = amountFilter[2]
-
-        timestampFilterOperator = timestampFilter[0]
-        timestampFilterValue = timestampFilter[1]
-        timestampFilterSecondaryValue = timestampFilter[2]
+    def getwallettransactions(self, requestType, transactionType, page):
 
         pageNum = page[0]
         pageResults = page[1]
 
         params = {
             "requestType": requestType,
-            "address": address,
             "transactionType": transactionType,
-            "status": status,
-            "amountFilter": [{
-                "operator": amountFilterOperator,
-                "value": amountFilterValue,
-                "secondaryValue": amountFilterSecondaryValue
-            }],
-            "timestampFilter": [{
-                "operator": timestampFilterOperator,
-                "value": timestampFilterValue,
-                "secondaryValue": timestampFilterSecondaryValue
-            }],
-            "page": [{
+            "page": {
                 "pageNumber": pageNum,
                 "resultsPerPage": pageResults
-            }]
+            }
         }
         return self.doRequest("getwallettransactions", params)
 
