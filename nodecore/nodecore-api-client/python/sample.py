@@ -144,12 +144,23 @@ api = nodecore_api.nodecore_api(host, rpc_password, True)
 
 # Get Wallet Transactions
 # LIST = 0, QUERY = 1
-requestType = 0
+#requestType = 0
+# NOT_SET = 0, POW_COINBASE = 1, POP_COINBASE = 2, BOTH_COINBASE = 3, SENT = 4, RECEIVED = 5, SENT_AND_RECEIVED = 6, POP = 7
+#transactionType = 6
+# pageNumber=1, resultsPerPage=5
+#page = [1,5]
+#transactions = api.getwallettransactions(requestType, transactionType, page)
+#print(pretty(transactions))
+
+# Get Wallet Transactions by Address
+address = 'V7TMHDQC8myywuGbQs5ADTrk14fajz'
+# LIST = 0, QUERY = 1
+requestType = 1
 # NOT_SET = 0, POW_COINBASE = 1, POP_COINBASE = 2, BOTH_COINBASE = 3, SENT = 4, RECEIVED = 5, SENT_AND_RECEIVED = 6, POP = 7
 transactionType = 6
 # pageNumber=1, resultsPerPage=5
 page = [1,5]
-transactions = api.getwallettransactions(requestType, transactionType, page)
+transactions = api.getwallettransactionsbyaddress(address, requestType, transactionType, page)
 print(pretty(transactions))
 
 # Import Private Key

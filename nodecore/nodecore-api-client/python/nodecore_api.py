@@ -281,6 +281,22 @@ class nodecore_api:
         }
         return self.doRequest("getwallettransactions", params)
 
+    def getwallettransactionsbyaddress(self, address, requestType, transactionType, page):
+
+        pageNum = page[0]
+        pageResults = page[1]
+
+        params = {
+            "address": address,
+            "requestType": requestType,
+            "transactionType": transactionType,
+            "page": {
+                "pageNumber": pageNum,
+                "resultsPerPage": pageResults
+            }
+        }
+        return self.doRequest("getwallettransactions", params)
+
     def importprivatekey(self, privateKey):
         params = {
             "privateKey": privateKey
