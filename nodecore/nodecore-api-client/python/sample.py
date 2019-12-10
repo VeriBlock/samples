@@ -201,11 +201,18 @@ api = nodecore_api.nodecore_api(host, rpc_password, True)
 #transactions = api.getwallettransactionsbyaddress(address, requestType, transactionType, page)
 #print(pretty(transactions))
 
-#TODO: Import Private Key
+# Import Private Key
+#key = ''
+#importkey = api.importprivatekey(key)
+#print(pretty(importkey))
 
-#TODO: Import Wallet
+# Import Wallet
+#source = '/path/to/wallet/file'
+#passphrase = 'password'
+#importwal = api.importwallet(source, passphrase)
+#print(pretty(importwal))
 
-# List Allowed/Whitelist
+# List Whitelist Allowed
 #allowed = api.listallowed()
 #print(pretty(allowed))
 
@@ -251,9 +258,22 @@ api = nodecore_api.nodecore_api(host, rpc_password, True)
 #send = api.sendcoins(source, dest, amount)
 #print(pretty(send))
 
-#TODO:  Set Allowed
+#  Set Allowed (Add or Remove from Whitelist)
+# ADD = 0, REMOVE = 1
+#command = 0
+#value = '192.168.1.0/24'
+#whitelist = api.setallowed(command, value)
+#print(pretty(whitelist))
 
-#TODO:  Set Banned
+#  Set Banned
+# ADD = 0, REMOVE = 1
+#command = 0
+#value = 'VE5eewEKb2699CjF6Ds3ihyXHFCPCn'
+#reason = 'testing'
+# unixtime / epoc
+#expiryTimestamp = 1575947520
+#setban = api.setban(command, value, reason, expiryTimestamp)
+#print(pretty(setban))
 
 # Set Default Address
 #defaultaddress = api.setdefaultaddress('V3TCJ69TfVVELGJi9H5c2m3smAiWeP')
@@ -292,6 +312,7 @@ api = nodecore_api.nodecore_api(host, rpc_password, True)
 #TODO: Submit PoP
 
 #TODO: Troubleshoot PoP Transactions
+
 
 # Unlock Wallet
 #passphrase = 'password'
