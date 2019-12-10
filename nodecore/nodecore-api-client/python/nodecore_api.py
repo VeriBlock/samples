@@ -433,7 +433,7 @@ class nodecore_api:
 
     def stoppool(self):
         params = {}
-        return self.doRequest("stopool", params)
+        return self.doRequest("stoppool", params)
 
     def submitblocks(self):
         pass

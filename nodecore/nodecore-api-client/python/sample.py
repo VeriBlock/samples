@@ -62,8 +62,16 @@ api = nodecore_api.nodecore_api(host, rpc_password, True)
 #print(pretty(balance))
 
 # Get Balance Unlock Schedule
+#addresses = ['V3TCJ69TfVVELGJi9H5c2m3smAiWeP']
+#addresses = ['address_one', 'address_two']
+#unlockschedule = api.getbalanceunlockschedule(addresses)
+#print(pretty(unlockschedule))
 
 # Get Bitcoin Block Index
+#searchLength = 0
+#blockHeader = '00000020527cc2b1b37f65a7d56b632fe96653ea54493ce51a159cce6d0300000000000016d66b45a248b6c5c32d2b9b5ba0d8186c5e136caee978ceb1bb958d6cda5c14d1d5ee5decae031a782e3d19'
+#btcblockindex = api.getbitcoinblockindex(blockHeader, searchLength)
+#print(pretty(btcblockindex))
 
 # Get Blockchains
 #blockchains = api.getblockchains()
@@ -105,8 +113,12 @@ api = nodecore_api.nodecore_api(host, rpc_password, True)
 #print(info['result']['defaultAddress']['address'] + " Balance: " + str(convertAtomic(info['result']['defaultAddress']['unlockedAmount'])) + " VBK")
 
 # Get Last Bitcoin Block
+#lastbtcblock = api.getlastbitcoinblock()
+#print(pretty(lastbtcblock))
 
 # Get Last Block
+#lastblock = api.getlastblock()
+#print(pretty(lastblock))
 
 # Get new address
 #newaddress = api.getnewaddress(1)
@@ -125,25 +137,48 @@ api = nodecore_api.nodecore_api(host, rpc_password, True)
 #print(pretty(poolstate))
 
 # Get PoP
+#blockNum = 100000
+#getpop = api.getpop(blockNum)
+#print(pretty(getpop))
 
 # Get PoP Endorsements Info
+#addresses = ['V3TCJ69TfVVELGJi9H5c2m3smAiWeP']
+#searchLength = 0
+#getpopendorsements = api.getpopendorsementsinfo(searchLength, addresses)
+#print(pretty(getpopendorsements))
 
 # Get Protected Children
+#searchLength = 0
+#blockHash = '0000001755917FDB90335FBEBED76D4E6C007494173B0E27'
+#protectedchildren = api.getprotectedchildren(searchLength, blockHash)
+#print(pretty(protectedchildren))
 
 # Get Protecting Parents
+#searchLength = 0
+#blockHash = '0000001755917FDB90335FBEBED76D4E6C007494173B0E27'
+#protectingparents = api.getprotectingparents(searchLength, blockHash)
+#print(pretty(protectingparents))
 
 # Get Signature Index
+#addresses = ['V3TCJ69TfVVELGJi9H5c2m3smAiWeP']
+#sigindex = api.getsignatureindex(addresses)
+#print(pretty(sigindex))
 
 # Get State Info
 #stateinfo = api.getstateinfo()
 #print(pretty(stateinfo))
 
 # Get Transactions
-ids = 'D634C6E7D7E19F083068DAB4ED9499EE312EF4ADACCCD74B496F4DE22ED527DC'
-transactions = api.gettransactions(ids)
-print(pretty(transactions))
+#ids = 'D634C6E7D7E19F083068DAB4ED9499EE312EF4ADACCCD74B496F4DE22ED527DC'
+#transactions = api.gettransactions(ids)
+#print(pretty(transactions))
 
+#TODO: What is context hash?
 # Get VeriBlock Publications
+#keystoneHash = ''
+#contextHash = ''
+#vtbpublications = api.getveriblockpublications(keystoneHash, contextHash)
+#print(pretty(vtbpublications))
 
 # Get Wallet Transactions
 # LIST = 0, QUERY = 1
@@ -166,32 +201,48 @@ print(pretty(transactions))
 #transactions = api.getwallettransactionsbyaddress(address, requestType, transactionType, page)
 #print(pretty(transactions))
 
-# Import Private Key
+#TODO: Import Private Key
 
-# Import Wallet
+#TODO: Import Wallet
 
-# List Allowed
+# List Allowed/Whitelist
+#allowed = api.listallowed()
+#print(pretty(allowed))
 
 # List Banned
+#bannedpeers = api.listbanned()
+#print(pretty(bannedpeers))
 
 # List Banned Miners
+#bannedminers = api.listbannedminers()
+#print(pretty(bannedminers))
 
 # List Blocks Since
+#blockHash = '00000010AC62E9738BFA09BEF3DA7F435D20F11EE64A5397'
+#listblocks = api.listblockssince(blockHash)
+#print(pretty(listblocks))
 
 # Lock Wallet
+#lock = api.lockwallet()
+#print(pretty(lock))
 
-# Make Unsigned Multisig Tx
+#TODO: Make Unsigned Multisig Tx
 
 # Refresh Wallet Cache
+#refresh = api.refreshwalletcache()
+#print(pretty(refresh))
 
-# Remove Node
+# Remove Peer/Node
+#removenode = api.removenode('192.168.0.63', 7500)
+#print(pretty(removenode))
 
 # Restart Pool Webserver
+#restart = api.restartpoolwebserver()
+#print(pretty(restart))
 
-# Send Alt Chain Endorsement
+#TODO:  Send Alt Chain Endorsement
 
 # Send Coins
-
 #source = 'V3TCJ69TfVVELGJi9H5c2m3smAiWeP'
 #dest = 'V7TMHDQC8myywuGbQs5ADTrk14fajz'
 # Specify amount in VBK
@@ -200,35 +251,54 @@ print(pretty(transactions))
 #send = api.sendcoins(source, dest, amount)
 #print(pretty(send))
 
-# Set Allowed
+#TODO:  Set Allowed
 
-# Set Banned
+#TODO:  Set Banned
 
 # Set Default Address
-
 #defaultaddress = api.setdefaultaddress('V3TCJ69TfVVELGJi9H5c2m3smAiWeP')
 #print(pretty(defaultaddress))
 
 # Set Transaction Fee
+#amount = 00000100
+#txfee = api.settransactionfee(amount)
+#print(pretty(txfee))
 
 # Sign Message
+#address = 'V3TCJ69TfVVELGJi9H5c2m3smAiWeP'
+#message = 'Overcooked Panda'
+#message = message.encode("hex")
+#signedmsg = api.signmessage(address, message)
+#print(pretty(signedmsg))
 
 # Start Pool
+#poolType = 'CPU'
+#pool = api.startpool(poolType)
+#print(pretty(pool))
 
 # Start Solo Pool
+#address = 'V3TCJ69TfVVELGJi9H5c2m3smAiWeP'
+#pool = api.startsolopool(address)
+#print(pretty(pool))
 
 # Stop NodeCore
+#stop = api.stopnodecore()
+#print(pretty(stop))
 
 # Stop Pool
+#pool = api.stoppool()
+#print(pretty(pool))
 
-# Submit PoP
+#TODO: Submit PoP
 
-# Troubleshoot PoP Transactions
+#TODO: Troubleshoot PoP Transactions
 
 # Unlock Wallet
+#passphrase = 'password'
+#unlock = api.unlockwallet(passphrase)
+#print(pretty(unlock))
 
 # Validate Address
-
-
-
-
+#address = 'V3TCJ69TfVVELGJi9H5c2m3smAiWeP'
+#validateaddress = api.validateaddress(address)
+#print(pretty(validateaddress))
