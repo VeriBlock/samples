@@ -11,6 +11,7 @@ class nodecore_pop_api:
         url = self.host + path
 
         s = requests.Session()
+
         if body == '{}':
             response = s.request(method, url, data=body)
         elif body:
@@ -27,35 +28,35 @@ class nodecore_pop_api:
             raise Exception(str(response.status_code) + ": " + response.reason)
 
     def get_config(self):
-        return json.dumps(self.request('GET', '/api/config', None), sort_keys=True, indent=4)
+        return self.request('GET', '/api/config', None)
 
     def put_config(self, key, value):
         config_data = {
             "key": key,
             "value": value
         }
-        return json.dumps(self.request('PUT', '/api/config', config_data), sort_keys=True, indent=4)
+        return self.request('PUT', '/api/config', config_data)
 
     def get_miner_properties(self):
-        return json.dumps(self.request('GET', '/api/miner', None), sort_keys=True, indent=4)
+        return self.request('GET', '/api/miner', None)
 
     def get_operations(self):
-        return json.dumps(self.request('GET', '/api/operations', None), sort_keys=True, indent=4)
+        return self.request('GET', '/api/operations', None)
 
     def get_operations_id(self, id):
-        return json.dumps(self.request('GET', '/api/operations/' + id, None), sort_keys=True, indent=4)
+        return self.request('GET', '/api/operations/' + id, None)
 
     def get_lastbitcoinblock(self):
-        return json.dumps(self.request('GET', '/api/lastbitcoinblock', None), sort_keys=True, indent=4)
+        return self.request('GET', '/api/lastbitcoinblock', None)
 
     def quit(self):
-        return json.dumps(self.request('POST', '/api/quit', None), sort_keys=True, indent=4)
+        return self.request('POST', '/api/quit', None)
 
     def mine_current_block(self):
-        return json.dumps(self.request('POST', '/api/mine', '{}'), sort_keys=True, indent=4)
+        return self.request('POST', '/api/mine', '{}')
 
     def mine(self, block):
         block_data = {
             "block": block
         }
-        return json.dumps(self.request('POST', '/api/mine', block_data), sort_keys=True, indent=4)
+        return self.request('POST', '/api/mine', block_data)
