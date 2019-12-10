@@ -9,7 +9,7 @@ def pretty(self):
 def convertAtomic(self):
     return int(self)/100000000
 
-host = 'http://192.168.0.62:10600'
+host = 'http://127.0.0.1:10600'
 
 rpc_password = ''
 
