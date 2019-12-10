@@ -84,7 +84,8 @@ api = nodecore_api.nodecore_api(host, rpc_password, True)
 #blocks = api.getblocks(1, filters)
 #print(pretty(blocks))
 #print(blocks['header'])
-# Get Block Template
+
+#TODO:  Get Block Template
 
 # Get Block Times
 #blocktimes = api.getblocktimes(5)
@@ -173,11 +174,14 @@ api = nodecore_api.nodecore_api(host, rpc_password, True)
 #transactions = api.gettransactions(ids)
 #print(pretty(transactions))
 
-#TODO: What is context hash?
 # Get VeriBlock Publications
-#keystoneHash = ''
-#contextHash = ''
-#vtbpublications = api.getveriblockpublications(keystoneHash, contextHash)
+# Keystone block after pop txes
+#keystoneHash = '00000016C6CDD0650B6EFA4BC17779B61CB8C4194E46E1F5'
+# VBK Block containing pop txes
+#contextHash = '00000025DE1620FEF5BF69C98DAFC8E28F9FCBA38ED02EBA'
+# BTC Block containing pop txes
+#btcContextHash = '0000000000000339CA3FE6097D4FA83127E6A61CC42179369241B5E320F650F3'
+#vtbpublications = api.getveriblockpublications(keystoneHash, contextHash, btcContextHash)
 #print(pretty(vtbpublications))
 
 # Get Wallet Transactions
@@ -312,7 +316,6 @@ api = nodecore_api.nodecore_api(host, rpc_password, True)
 #TODO: Submit PoP
 
 #TODO: Troubleshoot PoP Transactions
-
 
 # Unlock Wallet
 #passphrase = 'password'

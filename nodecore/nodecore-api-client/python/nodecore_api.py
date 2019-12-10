@@ -260,10 +260,11 @@ class nodecore_api:
         }
         return self.doRequest("gettransactions", params)
 
-    def getveriblockpublications(self, keystoneHash, contextHash):
+    def getveriblockpublications(self, keystoneHash, contextHash, btcContextHash):
         params = {
             "keystoneHash": keystoneHash,
-            "contextHash": contextHash
+            "contextHash": contextHash,
+            "btcContextHash": btcContextHash
         }
         return self.doRequest("getveriblockpublications", params)
 
