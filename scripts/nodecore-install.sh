@@ -1,19 +1,24 @@
 #!/usr/bin/env bash
 #
 # Automated install script for VeriBlock NodeCore on Ubuntu and CentOS Linux distributions
-# This script can be called with -u <url> to download an alternate package.  You can use the -b flag if you wish to skip downloading the bootstrap and start sync at block 0.
+# This script can be called with -u <url> to download an alternate package, and network can be specified with -n (-n testnet), or defaults to mainnet.
+# You can use the -b flag if you wish to skip downloading the bootstrap and start sync at block 0.
 # It should be noted that this script uses the new datadir location of ~/VeriBlock by default, with the calling of NodeCore with `./nodecore -d USER`
 #
 echo "Some parts of this script require sudo to run such as installing dependencies, please authenticate now..."
 if [[ ! $(sudo echo 0) ]]; then exit; fi
 BOOTSTRAP_ENABLED=1
-while getopts ":u:b" opt; do
+NETWORK=mainnet
+while getopts ":u:b:n:" opt; do
   case $opt in
     u)
       LATEST_NODECORE="$OPTARG"
       ;;
     b)
       BOOTSTRAP_ENABLED=0
+      ;;
+    n)
+      NETWORK="$OPTARG"
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -26,6 +31,13 @@ while getopts ":u:b" opt; do
   esac
 done
 
+function checknetwork {
+    if [[ ${NETWORK} == "testnet" || ${NETWORK} == "mainnet" ]]; then
+        true
+    else
+        false
+    fi
+}
 function isinstalledcentos {
     if yum list installed "$@" >/dev/null 2>&1; then
         true
@@ -82,6 +94,15 @@ function repocheck {
 fi
 }
 #
+# Check that the user has specified mainnet or testnet, or is using default network selection.
+#
+if checknetwork $@; then
+        echo "NodeCore network: ${NETWORK}";
+    else
+        echo "Sorry, but ${NETWORK} is an invalid network selection.  Exiting now..."
+        exit
+fi
+#
 # Check that user has sudo privileges
 #
 timeout 2 sudo id > /dev/null && sudo="true" || sudo="false"
@@ -106,9 +127,11 @@ TOTALMEM=$(($TOTALMEM/1000000))
 echo System Memory: $TOTALMEM GB
 TOTALCORES=$(nproc)
 echo System Cores: $TOTALCORES
-TOTALDISK=$(df -H "$HOME" | awk 'NR==2 { print $2 }' | tr -d -c 0-9)
+TOTALDISK=$(df -k . | awk 'NR==2 { print $2/1048576 }')
+TOTALDISK=${TOTALDISK/.*}
 echo Disk Size: $TOTALDISK GB
-FREESPACE=$(df -H "$HOME" | awk 'NR==2 { print $2 }' | tr -d -c 0-9)
+FREESPACE=$(df -k . | awk 'NR==2 { print $4/1048576 }')
+FREESPACE=${FREESPACE/.*}
 echo Free Disk Space: $FREESPACE GB
 if [ $TOTALMEM -lt 4 ]
 then
@@ -158,14 +181,14 @@ then
 else
     echo "Using url $LATEST_NODECORE for download..."
 fi
-LATEST_BOOTSTRAP=`curl -s https://explore.veriblock.org/api/stats/download | jq -r .bootstrapfile_zip`
 NODECORE="$(basename $LATEST_NODECORE)"
-BOOTSTRAP="$(basename $LATEST_BOOTSTRAP)"
+NC_VERSION=`curl -s https://explore.veriblock.org/api/stats/download | jq -r .nodecore_all_tar | awk -F'v[^0-9]*' '$0=$2' | sed s'/\///g'`
 NODECORE_ALL_DIR="$(basename $NODECORE .tar.gz)"
+BOOTSTRAP_DOWNLOADER=bootstrap-downloader-${NC_VERSION}/bin/bootstrap-downloader
 NODECORE_DIR="$(echo "$NODECORE" | cut -d'-' -f2,4 | cut -d'.' -f1-3)"
 #
 echo "Creating directory for latest release..."
-mkdir $NODECORE_ALL_DIR
+mkdir -p $NODECORE_ALL_DIR
 cd $NODECORE_ALL_DIR
 #
 # Download latest version of NodeCore & bootstrap
@@ -182,24 +205,34 @@ wget -q $wgetProgress $LATEST_NODECORE
 echo "Extracting $NODECORE..."
 tar zxmvf $NODECORE
 rm $NODECORE
+
 if [[ "$BOOTSTRAP_ENABLED" == "1" ]];
 then
-    mkdir -p ~/VeriBlock/mainnet
-    cd ~/VeriBlock/mainnet
-    echo "Downloading $LATEST_BOOTSTRAP... (this could take awhile, please be patient)"
-    curl -O $LATEST_BOOTSTRAP
-    if [[ $? -ne 0 ]]; then
-       echo "Download failed... exiting..."
-       exit 1;
+    mkdir -p ~/VeriBlock/${NETWORK}
+
+    if [[ "$NETWORK" == "testnet" ]];
+    then
+        echo "network=testnet" >> ~/VeriBlock/nodecore.properties
+    elif [[ "$NETWORK" == "mainnet" ]];
+    then
+        echo "network=mainnet" >> ~/VeriBlock/nodecore.properties
     fi
-    echo "Extracting $BOOTSTRAP for fast sync..."
-    unzip $BOOTSTRAP
-    echo "Removing $BOOTSTRAP..."
-    rm $BOOTSTRAP
-    cd ../../$NODECORE_ALL_DIR/$NODECORE_DIR/bin
+    echo "Downloading latest block files for ${NETWORK}..."
+    $BOOTSTRAP_DOWNLOADER -d ~/VeriBlock/ -n ${NETWORK}
+    if [ $? -eq 0 ]
+    then
+        echo "Successfully downloaded block files... continuing."
+        cd $NODECORE_DIR/bin
+        echo "Starting NodeCore..."
+        screen -dmS nodecore bash -c './nodecore -d USER'
+        echo "NodeCore started in 'nodecore' screen, type 'screen -r nodecore' to attach..."
+    else
+        echo "Failed to download block files.. exiting.. please try to run the script again." >&2
+        exit 1
+    fi
 else
-cd ../$NODECORE_ALL_DIR/$NODECORE_DIR/bin
+cd $NODECORE_DIR/bin
 echo "Starting NodeCore..."
 screen -dmS nodecore bash -c './nodecore -d USER'
-fi
 echo "NodeCore started in 'nodecore' screen, type 'screen -r nodecore' to attach..."
+fi
