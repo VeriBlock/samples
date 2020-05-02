@@ -19,6 +19,10 @@ import logging
 #requests_log.setLevel(logging.DEBUG)
 #requests_log.propagate = True
 
+# Pretty Print JSON Function
+def pretty(self):
+    return json.dumps(self, sort_keys=True, indent=4)
+
 host = 'http://127.0.0.1:8080'
 
 # Create api object
