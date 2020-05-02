@@ -12,13 +12,15 @@ class nodecore_pop_api:
 
         s = requests.Session()
 
+        headers = {"Content-Type": "application/json"}
+
         if body == '{}':
-            response = s.request(method, url, data=body)
+            response = s.request(method, url, data=body, headers=headers)
         elif body:
             body_json = json.dumps(body)
-            response = s.request(method, url, data=body_json)
+            response = s.request(method, url, data=body_json, headers=headers)
         else:
-            response = s.request(method, url)
+            response = s.request(method, url, headers=headers)
 
         if response.status_code == 200:
             return response.json()
