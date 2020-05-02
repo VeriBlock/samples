@@ -1,11 +1,29 @@
+#!/usr/bin/env python3
+
 import nodecore_pop_api
 import json
+import logging
+
+# Uncomment these for debug logging of requests
+#try:
+#    import http.client as http_client
+#except ImportError:
+#    # Python 2
+#    import httplib as http_client
+#http_client.HTTPConnection.debuglevel = 1
+
+# You must initialize logging, otherwise you'll not see debug output.
+#logging.basicConfig()
+#logging.getLogger().setLevel(logging.DEBUG)
+#requests_log = logging.getLogger("requests.packages.urllib3")
+#requests_log.setLevel(logging.DEBUG)
+#requests_log.propagate = True
 
 # Pretty Print JSON Function
 def pretty(self):
     return json.dumps(self, sort_keys=True, indent=4)
 
-host = 'http://127.0.0.1:8600'
+host = 'http://127.0.0.1:8080'
 
 # Create api object
 api = nodecore_pop_api.nodecore_pop_api(host, True)
