@@ -1,18 +1,9 @@
 #!/usr/bin/env python
 import requests
 import json
-import logging
-import httplib
 
-# Debug logging
-httplib.HTTPConnection.debuglevel = 1
-logging.basicConfig()
-logging.getLogger().setLevel(logging.DEBUG)
-req_log = logging.getLogger('requests.packages.urllib3')
-req_log.setLevel(logging.DEBUG)
-req_log.propagate = True
 
-class nodecore_api:
+class NodeCoreApi:
 
     def __init__(self, host, rpc_password, verbose=False):
         self.host = host
@@ -23,6 +14,7 @@ class nodecore_api:
 
         headers = {
             'X-VBK-RPC-PASSWORD': self.rpc_password,
+            'Content-Type': 'application/json'
         }
 
         s = requests.Session()
@@ -43,8 +35,8 @@ class nodecore_api:
         else:
             raise Exception(str(response.status_code) + ": " + response.reason)
 
-## Thanks bitspill :)
-    def doRequest(self, method, params):
+# Thanks bitspill :)
+    def do_request(self, method, params):
         request = {
             "jsonrpc": "2.0",
             "method": method,
@@ -60,80 +52,80 @@ class nodecore_api:
                 "port": port
             }]
         }
-        return self.doRequest("addnode", params)
+        return self.do_request("addnode", params)
 
     def backupwallet(self, path):
         params = {
             "targetLocation": path
         }
-        return self.doRequest("backupwallet", params)
+        return self.do_request("backupwallet", params)
 
     def clearallowed(self):
         params = {}
-        return self.doRequest("clearallowed", params)
+        return self.do_request("clearallowed", params)
 
     def clearbanned(self):
         params = {}
-        return self.doRequest("clearbanned", params)
+        return self.do_request("clearbanned", params)
 
     def clearbannedminers(self):
         params = {}
-        return self.doRequest("clearbannedminers", params)
+        return self.do_request("clearbannedminers", params)
 
     def decryptwallet(self, passphrase):
         params = {
             "passphrase": passphrase
         }
-        return self.doRequest("decryptwallet", params)
+        return self.do_request("decryptwallet", params)
 
     def drainaddress(self, source, dest):
         params = {
             "sourceAddress": source,
             "destinationAddress": dest
         }
-        return self.doRequest("drainaddress", params)
+        return self.do_request("drainaddress", params)
 
     def dumpprivatekey(self, address):
         params = {
             "address": address
         }
-        return self.doRequest("dumpprivatekey", params)
+        return self.do_request("dumpprivatekey", params)
 
     def encryptwallet(self, passphrase):
         params = {
             "passphrase": passphrase
         }
-        return self.doRequest("encryptwallet", params)
+        return self.do_request("encryptwallet", params)
 
     def generatemultisigaddress(self, addresses, threshold):
         params = {
             "sourceAddresses": addresses,
             "signatureThresholdM": threshold
         }
-        return self.doRequest("generatemultisigaddress", params)
+        return self.do_request("generatemultisigaddress", params)
 
     def getbalance(self, addresses):
         params = {
             "addresses": addresses
         }
-        return self.doRequest("getbalance", params)
+        return self.do_request("getbalance", params)
 
     def getbalanceunlockschedule(self, addresses):
         params = {
             "addresses": addresses
         }
-        return self.doRequest("getbalanceunlockschedule", params)
+        return self.do_request("getbalanceunlockschedule", params)
 
     def getbitcoinblockindex(self, blockHeader, searchLength):
         params = {
             "blockHeader": blockHeader,
             "searchLength": searchLength
         }
-        return self.doRequest("getbitcoinblockindex", params)
+        return self.do_request("getbitcoinblockindex", params)
 
     def getblockchains(self):
         params = {}
-        return self.doRequest("getblockchains", params)
+        return self.do_request("getblockchains", params)
 
     def getblocks(self, searchLength, filters):
 
@@ -146,24 +138,24 @@ class nodecore_api:
                 filterType: filterValue
             }],
         }
-        return self.doRequest("getblocks", params)
+        return self.do_request("getblocks", params)
 
     def getblocktemplate(self, mode, capabilities):
         params = {
             "mode": mode,
             "capabilities": capabilities
         }
-        return self.doRequest("getblocktemplate", params)
+        return self.do_request("getblocktemplate", params)
 
     def getblocktimes(self, historyLength):
         params = {
             "historyLength": historyLength
         }
-        return self.doRequest("getblocktimes", params)
+        return self.do_request("getblocktimes", params)
 
     def getdiagnosticinfo(self):
         params = {}
-        return self.doRequest("getdiagnosticinfo", params)
+        return self.do_request("getdiagnosticinfo", params)
 
     def getendorsementsofblock(self, filter):
 
@@ -175,49 +167,49 @@ class nodecore_api:
                 filterType: filterValue,
             }
         }
-        return self.doRequest("getendorsementsofblock", params)
+        return self.do_request("getendorsementsofblock", params)
 
     def gethistory(self, addresses):
         params = {
             "addresses": addresses
         }
-        return self.doRequest("gethistory", params)
+        return self.do_request("gethistory", params)
 
     def getinfo(self):
         params = {}
-        return self.doRequest("getinfo", params)
+        return self.do_request("getinfo", params)
 
     def getlastbitcoinblock(self):
         params = {}
-        return self.doRequest("getlastbitcoinblock", params)
+        return self.do_request("getlastbitcoinblock", params)
 
     def getlastblock(self):
         params = {}
-        return self.doRequest("getlastblock", params)
+        return self.do_request("getlastblock", params)
 
     def getnewaddress(self, count):
         params = {
             "count": count
         }
-        return self.doRequest("getnewaddress", params)
+        return self.do_request("getnewaddress", params)
 
     def getpeerinfo(self):
         params = {}
-        return self.doRequest("getpeerinfo", params)
+        return self.do_request("getpeerinfo", params)
 
     def getpendingtransactions(self):
         params = {}
-        return self.doRequest("getpendingtransactions", params)
+        return self.do_request("getpendingtransactions", params)
 
     def getpoolstate(self):
         params = {}
-        return self.doRequest("getpoolstate", params)
+        return self.do_request("getpoolstate", params)
 
     def getpop(self, blockNum):
         params = {
             "blockNum": blockNum
         }
-        return self.doRequest("getpop", params)
+        return self.do_request("getpop", params)
 
     def getpopendorsementsinfo(self, searchLength, addresses):
         params = {
@@ -226,31 +218,31 @@ class nodecore_api:
                 "standardAddress": addresses
             }]
         }
-        return self.doRequest("getpopendorsementsinfo", params)
+        return self.do_request("getpopendorsementsinfo", params)
 
     def getprotectedchildren(self, searchLength, veriblockBlockHash):
         params = {
             "searchLength": searchLength,
             "veriblockBlockHash": veriblockBlockHash
         }
-        return self.doRequest("getprotectedchildren", params)
+        return self.do_request("getprotectedchildren", params)
 
     def getprotectingparents(self, searchLength, veriblockBlockHash):
         params = {
             "searchLength": searchLength,
             "veriblockBlockHash": veriblockBlockHash
         }
-        return self.doRequest("getprotectingparents", params)
+        return self.do_request("getprotectingparents", params)
 
     def getsignatureindex(self, addresses):
         params = {
             "addresses": addresses
         }
-        return self.doRequest("getsignatureindex", params)
+        return self.do_request("getsignatureindex", params)
 
     def getstateinfo(self):
         params = {}
-        return self.doRequest("getstateinfo", params)
+        return self.do_request("getstateinfo", params)
 
     def gettransactions(self, ids):
         params = {
@@ -258,99 +250,99 @@ class nodecore_api:
             "ids": [ ids ]
 
         }
-        return self.doRequest("gettransactions", params)
+        return self.do_request("gettransactions", params)
 
-    def getveriblockpublications(self, keystoneHash, contextHash, btcContextHash):
+    def getveriblockpublications(self, keystone_hash, context_hash, btc_context_hash):
         params = {
-            "keystoneHash": keystoneHash,
-            "contextHash": contextHash,
-            "btcContextHash": btcContextHash
+            "keystoneHash": keystone_hash,
+            "contextHash": context_hash,
+            "btcContextHash": btc_context_hash
         }
-        return self.doRequest("getveriblockpublications", params)
+        return self.do_request("getveriblockpublications", params)
 
-    def getwallettransactions(self, requestType, transactionType, page):
+    def getwallettransactions(self, request_type, transaction_type, page):
 
-        pageNum = page[0]
-        pageResults = page[1]
+        page_num = page[0]
+        page_results = page[1]
 
         params = {
-            "requestType": requestType,
-            "transactionType": transactionType,
+            "requestType": request_type,
+            "transactionType": transaction_type,
             "page": {
-                "pageNumber": pageNum,
-                "resultsPerPage": pageResults
+                "pageNumber": page_num,
+                "resultsPerPage": page_results
             }
         }
-        return self.doRequest("getwallettransactions", params)
+        return self.do_request("getwallettransactions", params)
 
-    def getwallettransactionsbyaddress(self, address, requestType, transactionType, page):
+    def getwallettransactionsbyaddress(self, address, request_type, transaction_type, page):
 
-        pageNum = page[0]
-        pageResults = page[1]
+        page_num = page[0]
+        page_results = page[1]
 
         params = {
             "address": address,
-            "requestType": requestType,
-            "transactionType": transactionType,
+            "requestType": request_type,
+            "transactionType": transaction_type,
             "page": {
-                "pageNumber": pageNum,
-                "resultsPerPage": pageResults
+                "pageNumber": page_num,
+                "resultsPerPage": page_results
             }
         }
-        return self.doRequest("getwallettransactions", params)
+        return self.do_request("getwallettransactions", params)
 
-    def importprivatekey(self, privateKey):
+    def importprivatekey(self, private_key):
         params = {
-            "privateKey": privateKey
+            "privateKey": private_key
         }
-        return self.doRequest("importprivatekey", params)
+        return self.do_request("importprivatekey", params)
 
     def importwallet(self, path, passphrase):
         params = {
             "sourceLocation": path,
             "passphrase": passphrase
         }
-        return self.doRequest("importwallet", params)
+        return self.do_request("importwallet", params)
 
     def listallowed(self):
         params = {}
-        return self.doRequest("listallowed", params)
+        return self.do_request("listallowed", params)
 
     def listbanned(self):
         params = {}
-        return self.doRequest("listbanned", params)
+        return self.do_request("listbanned", params)
 
     def listbannedminers(self):
         params = {}
-        return self.doRequest("listbannedminers", params)
+        return self.do_request("listbannedminers", params)
 
     def listblockssince(self, hash):
         params = {
             "hash": hash
         }
-        return self.doRequest("listblockssince", params)
+        return self.do_request("listblockssince", params)
 
     def lockwallet(self):
         params = {}
-        return self.doRequest("lockwallet", params)
+        return self.do_request("lockwallet", params)
 
-    def makeunsignedmultisigtx(self, sourceMultisigAddress, amounts, fee, signatureIndexString):
+    def makeunsignedmultisigtx(self, source_multisig_address, amounts, fee, signature_index_string):
         address = amounts[0]
         amount = amounts[1]
         params = {
-            "sourceMultisigAddress": sourceMultisigAddress,
+            "sourceMultisigAddress": source_multisig_address,
             "amounts": [{
                 "address": address,
                 "amount": amount
             }],
             "fee": fee,
-            "signatureIndexString": signatureIndexString
+            "signatureIndexString": signature_index_string
         }
-        return self.doRequest("makeunsignedmultisigtx", params)
+        return self.do_request("makeunsignedmultisigtx", params)
 
     def refreshwalletcache(self):
         params = {}
-        return self.doRequest("refreshwalletcache", params)
+        return self.do_request("refreshwalletcache", params)
 
     def removenode(self, ip, port):
         params = {
@@ -359,82 +351,82 @@ class nodecore_api:
                 "port": port
             }]
         }
-        return self.doRequest("removenode", params)
+        return self.do_request("removenode", params)
 
     def restartpoolwebserver(self):
         params = {}
-        return self.doRequest("restartpoolwebserver", params)
+        return self.do_request("restartpoolwebserver", params)
 
-    def sendaltchainendorsement(self, publicationData):
+    def sendaltchainendorsement(self, publication_data):
         params = {
-            "publicationData": publicationData
+            "publicationData": publication_data
         }
-        return self.doRequest("sendaltchainendorsement", params)
+        return self.do_request("sendaltchainendorsement", params)
 
-    def sendcoins(self, sourceAddress, address, amount):
+    def sendcoins(self, source_address, address, amount):
         params = {
-            "sourceAddress": sourceAddress,
+            "sourceAddress": source_address,
             "amounts": [{
                 "address": address,
                 "amount": amount
             }]
         }
-        return self.doRequest("sendcoins", params)
+        return self.do_request("sendcoins", params)
 
     def setallowed(self, command, value):
         params = {
             "command": command,
             "value": value
         }
-        return self.doRequest("setallowed", params)
+        return self.do_request("setallowed", params)
 
-    def setban(self, command, value, reason, expiryTimestamp):
+    def setban(self, command, value, reason, expiry_timestamp):
         params = {
             "command": command,
             "value": value,
             "reason": reason,
-            "expiryTimestamp": expiryTimestamp
+            "expiryTimestamp": expiry_timestamp
         }
-        return self.doRequest("setban", params)
+        return self.do_request("setban", params)
 
     def setdefaultaddress(self, address):
         params = {
             "address": address
         }
-        return self.doRequest("setdefaultaddress", params)
+        return self.do_request("setdefaultaddress", params)
 
     def settransactionfee(self, amount):
         params = {
             "amount": amount
         }
-        return self.doRequest("settransactionfee", params)
+        return self.do_request("settransactionfee", params)
 
     def signmessage(self, address, message):
         params = {
             "address": address,
             "message": message
         }
-        return self.doRequest("signmessage", params)
+        return self.do_request("signmessage", params)
 
     def startpool(self, type):
         params = {
             "type": type
         }
-        return self.doRequest("startpool", params)
+        return self.do_request("startpool", params)
 
     def startsolopool(self, address):
         params = {
             "address": address
         }
-        return self.doRequest("startsolopool", params)
+        return self.do_request("startsolopool", params)
 
     def stopnodecore(self):
         params = {}
-        return self.doRequest("stopnodecore", params)
+        return self.do_request("stopnodecore", params)
 
     def stoppool(self):
         params = {}
-        return self.doRequest("stoppool", params)
+        return self.do_request("stoppool", params)
 
     def submitblocks(self):
         pass
@@ -442,26 +434,26 @@ class nodecore_api:
     def submitmultisigtx(self):
         pass
 
-    def submitpop(self, endorsedBlockHeader, bitcoinTransaction, bitcoinMerklePathToRoot, bitcoinBlockHeaderOfProof, contextHeader, address):
+    def submitpop(self, endorsed_blockheader, bitcoin_transaction, bitcoin_merklepath_to_root, bitcoin_blockheader_of_proof, context_header, address):
         params = {
-            "endorsedBlockHeader": endorsedBlockHeader,
-            "bitcoinTransaction": bitcoinTransaction,
-            "bitcoinMerklePathToRoot": bitcoinMerklePathToRoot,
-            "bitcoinBlockHeaderOfProof": bitcoinBlockHeaderOfProof,
+            "endorsedBlockHeader": endorsed_blockheader,
+            "bitcoinTransaction": bitcoin_transaction,
+            "bitcoinMerklePathToRoot": bitcoin_merklepath_to_root,
+            "bitcoinBlockHeaderOfProof": bitcoin_blockheader_of_proof,
             "contextBitcoinBlockHeaders": [{
-                "header": contextHeader
+                "header": context_header
             }],
             "address": address
         }
-        return self.doRequest("submitpop", params)
+        return self.do_request("submitpop", params)
 
     def submittransactions(self):
         pass
 
-    def troubleshootpoptransactions(self, onlyFailures, searchLength, addresses, transactions):
+    def troubleshootpoptransactions(self, only_failures, search_length, addresses, transactions):
         params = {
-            "onlyFailures": onlyFailures,
-            "searchLength": searchLength,
+            "onlyFailures": only_failures,
+            "searchLength": search_length,
             "addresses": [{
                 "addresses": addresses
             }],
@@ -469,16 +461,16 @@ class nodecore_api:
                 "txids": transactions
             }]
         }
-        return self.doRequest("troubleshootpoptransactions", params)
+        return self.do_request("troubleshootpoptransactions", params)
 
     def unlockwallet(self, passphrase):
         params = {
             "passphrase": passphrase
         }
-        return self.doRequest("unlockwallet", params)
+        return self.do_request("unlockwallet", params)
 
     def validateaddress(self, address):
         params = {
             "address": address
         }
-        return self.doRequest("validateaddress", params)
+        return self.do_request("validateaddress", params)

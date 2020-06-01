@@ -2,6 +2,7 @@
 import requests
 import json
 
+
 class nodecore_pop_api:
 
     def __init__(self, host, verbose=False):
