@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'nebula.release' version '6.0.0'
+}
+
+// Define the main class for the application
+mainClassName = 'makeaddress.MakeAddress'
+
+repositories {
+    mavenLocal()
+    jcenter()
+}
+
+dependencies {
+    compile 'com.google.code.gson:gson:2.8.5'
+}
