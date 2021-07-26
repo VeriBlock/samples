@@ -1,3 +1,5 @@
+Note: This guide is outdated since the configuration endpoints no longer affect the configuration in the runtime.
+
 # VeriBlock PoP Miner API Client
 This sample demonstrates how a custom application might utilize the embedded HTTP API in a PoP miner to automate certain decisions. In doing so, the sample will demonstrate several of the API's available. For a complete list of available endpoints in the embedded API, please see this reference documentation:
 
