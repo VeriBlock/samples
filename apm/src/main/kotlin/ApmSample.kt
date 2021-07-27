@@ -47,7 +47,7 @@ suspend fun main() {
             operationTrack.forEach { (operationId, operationTask) ->
                 val operationDetailResponse = httpClient.getOperationDetails(inputApiUrl, operationId)
                 if (operationTask != operationDetailResponse.task) {
-                    println("operation $operationId is now running the task ${operationDetailResponse.task}")
+                    println("Operation id: $operationId is now running the task: ${operationDetailResponse.task}")
                     operationTrack[operationDetailResponse.operationId] = operationDetailResponse.task
                 }
             }
