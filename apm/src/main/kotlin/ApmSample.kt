@@ -7,12 +7,11 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import kotlinx.coroutines.delay
 import util.createHttpClient
-import util.withJsonSupport
 import kotlin.system.exitProcess
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 
-private val httpClient = createHttpClient().withJsonSupport()
+private val httpClient = createHttpClient()
 private val operationIds: MutableList<String> = ArrayList()
 
 @OptIn(ExperimentalTime::class)
