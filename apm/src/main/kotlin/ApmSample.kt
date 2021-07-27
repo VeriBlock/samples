@@ -13,15 +13,14 @@ import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 
 private val httpClient = createHttpClient().withJsonSupport()
-private val defaultApiUrl = "http://localhost:8080/api"
 private val operationIds: MutableList<String> = ArrayList()
 
 @OptIn(ExperimentalTime::class)
 suspend fun main() {
     var inputApiUrl: String
     do {
-        print("Input the APM API url (default: $defaultApiUrl): ")
-        inputApiUrl = readLine()!!.ifBlank { defaultApiUrl }.trim()
+        print("Input the APM API url (default: http://localhost:8080/api): ")
+        inputApiUrl = readLine()!!.ifBlank { "http://localhost:8080/api" }.trim()
     } while (!checkApiConnection(inputApiUrl))
 
     var miningOperationsCount: String
@@ -38,7 +37,7 @@ suspend fun main() {
     val trackStatus = readLine()!!.ifBlank { "yes" }.startsWith("y")
     if (trackStatus) {
         println("This operation can take a while...")
-        var operationTrack = httpClient.getAllOperations(inputApiUrl).operations.asSequence().filter {
+        val operationTrack = httpClient.getAllOperations(inputApiUrl).operations.asSequence().filter {
             operationIds.contains(it.operationId)
         }.associate {
             it.operationId to it.task
@@ -83,7 +82,7 @@ private suspend fun HttpClient.getNetwork(url: String) =
 
 private suspend fun checkApiConnection(url: String): Boolean = try {
     val networkInfoResponse = httpClient.getNetwork(url)
-    println("Connected to the APM miner API, the miner is running on the ${networkInfoResponse.name} network")
+    println("Connected to the APM miner API, the miner is running on the ${networkInfoResponse.name} network!")
     true
 } catch(exception: Exception) {
     print("Couldn't connect to the APM API with the supplied url (${exception.message}), do you want to review the configuration? (default: no): ")
