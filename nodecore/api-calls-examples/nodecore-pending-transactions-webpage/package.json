@@ -12,6 +12,7 @@
         "dotenv-expand": "^5.1.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-prettier": "^4.0.0",
+        "http-proxy-middleware": "^2.0.1",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-highlight-words": "^0.17.0",
@@ -62,6 +63,5 @@
         "husky": "^7.0.4",
         "lint-staged": "^12.1.2",
         "prettier": "^2.4.1"
-    },
-    "proxy": "http://95.216.252.205:10600"
+    }
 }

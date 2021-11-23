@@ -1,6 +1,10 @@
-# Getting Started with Create React App
+# Getting Started 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- Add Your NodeCore API url to the `.env` file. Example:
+
+```
+REACT_APP_NODECORE_API_URL=http://localhost:10600
+```
 
 ## Available Scripts
 
