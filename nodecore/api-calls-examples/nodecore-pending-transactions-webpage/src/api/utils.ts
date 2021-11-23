@@ -1,6 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-non-null-assertion */
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 
-import { IJsonRPC } from '../models/IJsonRPC';
+import { IJsonRPC } from 'models/IJsonRPC';
 
 export const request = async <T>(method: string, params = {}): Promise<T> => {
     const myHeaders = new Headers();

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Table } from 'antd';
-import { getPendingTransactions } from '../../api/pendingTransactions';
-import { IPendingTransactions } from '../../models/IPendingTransactions';
-import { EXPLORER_TX_SEARCH_URL } from '../../constants';
-import { ITransactionWithFeePerByte } from '../../models/ITransaction';
+import { getPendingTransactions } from 'api/pendingTransactions';
+import { IPendingTransactions } from 'models/IPendingTransactions';
+import { EXPLORER_TX_SEARCH_URL } from 'utils/constants';
+import { ITransactionWithFeePerByte } from 'models/ITransaction';
 import { SortOrder } from 'antd/lib/table/interface';
-import { ITableFilter } from '../../models/ITableFilter';
+import { ITableFilter } from 'models/ITableFilter';
 
 const PendingTransactions = () => {
     const [pendingTransactions, setPendingTransactions] = React.useState<Array<ITransactionWithFeePerByte> | []>([]);

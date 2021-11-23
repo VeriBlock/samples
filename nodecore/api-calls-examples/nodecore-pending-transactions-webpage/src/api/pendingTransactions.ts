@@ -1,5 +1,5 @@
-import { API_PATH } from '../constants';
-import { IPendingTransactions } from '../models/IPendingTransactions';
+import { API_PATH } from 'utils/constants';
+import { IPendingTransactions } from 'models/IPendingTransactions';
 import { request } from './utils';
 
 export const getPendingTransactions = async (): Promise<IPendingTransactions> => {

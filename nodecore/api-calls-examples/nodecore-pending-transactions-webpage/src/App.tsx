@@ -1,5 +1,5 @@
 import { Layout } from 'antd';
-import PendingTransactions from './Pages/PendingTransactions';
+import PendingTransactions from './pages/PendingTransactions';
 import './App.css';
 
 const { Header, Content, Footer } = Layout;

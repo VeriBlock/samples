@@ -7,18 +7,10 @@
     },
     "dependencies": {
         "antd": "^4.17.1",
-        "axios": "^0.24.0",
-        "dotenv": "^10.0.0",
-        "dotenv-expand": "^5.1.0",
-        "eslint-config-prettier": "^8.3.0",
-        "eslint-plugin-prettier": "^4.0.0",
         "http-proxy-middleware": "^2.0.1",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
-        "react-highlight-words": "^0.17.0",
-        "react-scripts": "^4.0.3",
-        "typescript": "^4.1.2",
-        "web-vitals": "^1.0.1"
+        "react-scripts": "^4.0.3"
     },
     "scripts": {
         "start": "react-scripts start",
@@ -28,7 +20,6 @@
         "lint": "eslint ./src/**/* --fix --no-error-on-unmatched-pattern",
         "lint-staged": "lint-staged",
         "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write",
-        "prepare": "cd ../../.. && husky install nodecore/api-calls-examples/nodecore-pending-transactions-webpage/.husky",
         "commit": "git add . && git commit -m"
     },
     "eslintConfig": {
@@ -59,9 +50,11 @@
         "@types/react-dom": "^17.0.0",
         "@typescript-eslint/eslint-plugin": "^5.4.0",
         "@typescript-eslint/parser": "^5.4.0",
+        "eslint-config-prettier": "^8.3.0",
         "eslint-config-react-app": "^6.0.0",
-        "husky": "^7.0.4",
+        "eslint-plugin-prettier": "^4.0.0",
         "lint-staged": "^12.1.2",
-        "prettier": "^2.4.1"
+        "prettier": "^2.4.1",
+        "typescript": "^4.1.2"
     }
 }

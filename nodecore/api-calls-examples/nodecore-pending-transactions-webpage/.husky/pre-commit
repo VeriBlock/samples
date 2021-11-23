@@ -1,4 +1,0 @@
-#!/bin/sh
-. "nodecore/api-calls-examples/nodecore-pending-transactions-webpage/.husky/_/husky.sh"
-
-yarn lint-staged
