@@ -36,6 +36,6 @@ export const request = async <T>(method: string, params = {}): Promise<T> => {
 
     return Promise.reject({
         status: response.status,
-        message: 'Ups... Something happened!!'
+        message: (JSON.parse((await response.text()) as unknown as string) as any).message
     });
 };

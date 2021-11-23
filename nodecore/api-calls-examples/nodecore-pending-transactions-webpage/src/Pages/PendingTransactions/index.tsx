@@ -1,45 +1,57 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Modal, Table } from 'antd';
 import { getPendingTransactions } from 'api/pendingTransactions';
 import { IPendingTransactions } from 'models/IPendingTransactions';
 import { EXPLORER_TX_SEARCH_URL } from 'utils/constants';
 import { ITransactionWithFeePerByte } from 'models/ITransaction';
 import { SortOrder } from 'antd/lib/table/interface';
 import { ITableFilter } from 'models/ITableFilter';
+import { IFailureResponse } from 'models/IFailureResponse';
 
 const PendingTransactions = () => {
     const [pendingTransactions, setPendingTransactions] = React.useState<Array<ITransactionWithFeePerByte> | []>([]);
     const [txIdFilters, setTxIdFilters] = React.useState<Array<ITableFilter> | []>([]);
     const [sourceAddressFilters, setSourceAddressFilters] = React.useState<Array<ITableFilter> | []>([]);
     const [isLoading, setLoading] = React.useState<boolean>(true);
+    const [hasError, setHasError] = React.useState<boolean>(false);
+    const [errorMsg, setErrorMsg] = React.useState<string>('');
 
     React.useEffect(() => {
         setLoading(true);
-        getPendingTransactions().then((pendingTransactionsResponse: IPendingTransactions) => {
-            setPendingTransactions(
-                pendingTransactionsResponse.transactions.map(
-                    (transaction) =>
-                        ({
-                            ...transaction,
-                            feePerByte: transaction.transactionFee / transaction.size
-                        } as ITransactionWithFeePerByte)
-                )
-            );
-            setTxIdFilters(
-                pendingTransactionsResponse.transactions.map((transaction) => ({
-                    text: transaction.txId,
-                    value: transaction.txId
-                }))
-            );
-            setSourceAddressFilters(
-                pendingTransactionsResponse.transactions.map((transaction) => ({
-                    text: transaction.sourceAddress,
-                    value: transaction.sourceAddress
-                }))
-            );
+        getPendingTransactions()
+            .then((pendingTransactionsResponse: IPendingTransactions) => {
+                setPendingTransactions(
+                    pendingTransactionsResponse.transactions.map(
+                        (transaction) =>
+                            ({
+                                ...transaction,
+                                feePerByte: transaction.transactionFee / transaction.size
+                            } as ITransactionWithFeePerByte)
+                    )
+                );
+                setTxIdFilters(
+                    pendingTransactionsResponse.transactions.map((transaction) => ({
+                        text: transaction.txId,
+                        value: transaction.txId
+                    }))
+                );
+                setSourceAddressFilters(
+                    pendingTransactionsResponse.transactions.map((transaction) => ({
+                        text: transaction.sourceAddress,
+                        value: transaction.sourceAddress
+                    }))
+                );
 
-            setLoading(false);
-        });
+                setLoading(false);
+            })
+            .catch((error: IFailureResponse) => {
+                setPendingTransactions([]);
+                setTxIdFilters([]);
+                setSourceAddressFilters([]);
+                setErrorMsg(error.message);
+                setLoading(false);
+                setHasError(true);
+            });
     }, []);
 
     const columns = [
@@ -91,6 +103,13 @@ const PendingTransactions = () => {
             sorter: (a: ITransactionWithFeePerByte, b: ITransactionWithFeePerByte) => a.size - b.size
         }
     ];
+
+    if (hasError) {
+        Modal.error({
+            title: 'Error',
+            content: errorMsg
+        });
+    }
 
     return <Table loading={isLoading} columns={columns} dataSource={pendingTransactions} />;
 };
