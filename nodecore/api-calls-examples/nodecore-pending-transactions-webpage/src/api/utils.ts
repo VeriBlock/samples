@@ -2,10 +2,14 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 
 import { IJsonRPC } from 'models/IJsonRPC';
+import getUuidByString from 'uuid-by-string';
+export const request = async <T>(endpoint: string, method: string, params = {}): Promise<T> => {
+    const uuidV5Hash = getUuidByString(`${endpoint}${method}`, 5);
 
-export const request = async <T>(method: string, params = {}): Promise<T> => {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('call', endpoint);
+    myHeaders.append('request-id', uuidV5Hash);
 
     const raw = JSON.stringify({
         jsonrpc: '2.0',
@@ -21,7 +25,7 @@ export const request = async <T>(method: string, params = {}): Promise<T> => {
         redirect: 'follow'
     };
 
-    const response = await window.fetch('/api', requestOptions);
+    const response = await window.fetch(endpoint, requestOptions);
 
     if (response.status === 200) {
         return ((await response.json()) as any as IJsonRPC<T>).result;

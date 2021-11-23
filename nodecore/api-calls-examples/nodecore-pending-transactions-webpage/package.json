@@ -10,7 +10,8 @@
         "http-proxy-middleware": "^2.0.1",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
-        "react-scripts": "^4.0.3"
+        "react-scripts": "^4.0.3",
+        "uuid-by-string": "^3.0.4"
     },
     "scripts": {
         "start": "react-scripts start",
