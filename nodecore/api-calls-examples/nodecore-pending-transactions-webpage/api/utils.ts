@@ -8,6 +8,10 @@ export const request = async <T>(method: string, params = {}): Promise<T> => {
 
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
+    
+    if (process.env.NODECORE_API_PWD) {
+        myHeaders.append('X-VBK-RPC-PASSWORD', process.env.NODECORE_API_PWD);
+    }
 
     const raw = JSON.stringify({
         jsonrpc: '2.0',
