@@ -23,7 +23,7 @@ export const request = async <T>(method: string, params = {}): Promise<T> => {
         redirect: 'follow'
     };
 
-    const response = await fetch(process.env.NODECORE_API_URL, requestOptions);
+    const response = await fetch(process.env.NODECORE_API_URL!, requestOptions);
 
     if (response.status === 200) {
         return ((await response.json()) as any as IJsonRPC<T>).result;
