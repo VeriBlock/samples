@@ -2,14 +2,12 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 
 import { IJsonRPC } from 'models/IJsonRPC';
-import getUuidByString from 'uuid-by-string';
-export const request = async <T>(endpoint: string, method: string, params = {}): Promise<T> => {
-    const uuidV5Hash = getUuidByString(`${endpoint}${method}`, 5);
+import { isJsonValid } from 'utils/utils';
+
+export const request = async <T>(method: string, params = {}): Promise<T> => {
 
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append('call', endpoint);
-    myHeaders.append('request-id', uuidV5Hash);
 
     const raw = JSON.stringify({
         jsonrpc: '2.0',
@@ -25,7 +23,7 @@ export const request = async <T>(endpoint: string, method: string, params = {}):
         redirect: 'follow'
     };
 
-    const response = await window.fetch(endpoint, requestOptions);
+    const response = await fetch(process.env.NODECORE_API_URL, requestOptions);
 
     if (response.status === 200) {
         return ((await response.json()) as any as IJsonRPC<T>).result;
@@ -38,8 +36,10 @@ export const request = async <T>(endpoint: string, method: string, params = {}):
         });
     }
 
+    const responseText = await response.text();
+
     return Promise.reject({
         status: response.status,
-        message: (JSON.parse((await response.text()) as unknown as string) as any).message
+        message: isJsonValid(responseText) ? (JSON.parse((responseText) as unknown as string) as any).message : responseText
     });
 };
