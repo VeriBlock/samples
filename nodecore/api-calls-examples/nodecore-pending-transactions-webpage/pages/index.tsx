@@ -1,4 +1,4 @@
-import { Modal, Table } from "antd";
+import { Alert, Table } from "antd";
 import { SortOrder } from "antd/lib/table/interface";
 import { getPendingTransactions } from "api/pendingTransactions";
 import { IFailureResponse } from "models/IFailureResponse";
@@ -86,28 +86,53 @@ const PendingTransactionsPage: NextPage<PendingTransactionsPageProps> = ({
     },
   ];
 
-  if (hasError) {
-    Modal.error({
-      title: "Error",
-      content: errorMsg,
-    });
-  }
-
   return (
-    <Table
-      loading={isLoading}
-      columns={columns}
-      dataSource={pendingTransactions}
-      rowKey="txId"
-    />
+    <>
+      {hasError && (<Alert message={errorMsg} type="error" />)}
+      <Table
+        loading={isLoading}
+        columns={columns}
+        dataSource={pendingTransactions}
+        rowKey="txId"
+      />
+    </>
   );
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const pendingTransactionsResponse: IPendingTransactions | IFailureResponse =
-    await getPendingTransactions();
+  try {
+    const pendingTransactionsResponse: IPendingTransactions =
+      await getPendingTransactions();
 
-  if (Object.keys(pendingTransactionsResponse).indexOf("message") > -1) {
+    return {
+      props: {
+        pendingTransactions: (
+          pendingTransactionsResponse as IPendingTransactions
+        ).transactions.map(
+          (transaction) =>
+          ({
+            ...transaction,
+            feePerByte: transaction.transactionFee / transaction.size,
+          } as ITransactionWithFeePerByte)
+        ),
+        txIdFilters: (
+          pendingTransactionsResponse as IPendingTransactions
+        ).transactions.map((transaction) => ({
+          text: transaction.txId,
+          value: transaction.txId,
+        })),
+        sourceAddressFilters: (
+          pendingTransactionsResponse as IPendingTransactions
+        ).transactions.map((transaction) => ({
+          text: transaction.sourceAddress,
+          value: transaction.sourceAddress,
+        })),
+        isLoading: false,
+        hasError: false,
+        errorMsg: "",
+      },
+    };
+  } catch (err) {
     return {
       props: {
         pendingTransactions: [],
@@ -115,39 +140,10 @@ export const getStaticProps: GetStaticProps = async () => {
         sourceAddressFilters: [],
         isLoading: false,
         hasError: true,
-        errorMsg: (pendingTransactionsResponse as IFailureResponse).message,
+        errorMsg: (err as IFailureResponse).message,
       },
     };
   }
-
-  return {
-    props: {
-      pendingTransactions: (
-        pendingTransactionsResponse as IPendingTransactions
-      ).transactions.map(
-        (transaction) =>
-          ({
-            ...transaction,
-            feePerByte: transaction.transactionFee / transaction.size,
-          } as ITransactionWithFeePerByte)
-      ),
-      txIdFilters: (
-        pendingTransactionsResponse as IPendingTransactions
-      ).transactions.map((transaction) => ({
-        text: transaction.txId,
-        value: transaction.txId,
-      })),
-      sourceAddressFilters: (
-        pendingTransactionsResponse as IPendingTransactions
-      ).transactions.map((transaction) => ({
-        text: transaction.sourceAddress,
-        value: transaction.sourceAddress,
-      })),
-      isLoading: false,
-      hasError: false,
-      errorMsg: "",
-    },
-  };
 };
 
 export default PendingTransactionsPage;

@@ -5,6 +5,13 @@ import { IJsonRPC } from 'models/IJsonRPC';
 import { isJsonValid } from 'utils/utils';
 
 export const request = async <T>(method: string, params = {}): Promise<T> => {
+    
+    if (!process.env.NODECORE_API_URL) {
+        return Promise.reject({
+            status: 501,
+            message: 'You need to specify the NodeCore API Url'
+        });
+    }
 
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
@@ -27,7 +34,7 @@ export const request = async <T>(method: string, params = {}): Promise<T> => {
         redirect: 'follow'
     };
 
-    const response = await fetch(process.env.NODECORE_API_URL!, requestOptions);
+    const response = await fetch(process.env.NODECORE_API_URL, requestOptions);
 
     if (response.status === 200) {
         return ((await response.json()) as any as IJsonRPC<T>).result;

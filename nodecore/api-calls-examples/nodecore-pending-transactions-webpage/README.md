@@ -6,9 +6,12 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ```
 NODECORE_API_URL=
+NODECORE_API_PWD=
 ```
 
 You should put the full path to NodeCore API. For example: `NODECORE_API_URL=http://127.0.0.1:10600/api`
+
+If the **rpc.security.password.enabled** property in the _nodecore.properties_ file is set to to **true**, requests to the HTTP API will require the additional header **X-VBK-RPC-PASSWORD** to be set. The value of this header corresponds to the password defined in the property **rpc.security.password** in _nodecore.properties_. For example: `NODECORE_API_PWD=8Jvg@Y{m^WwdH&-N`
 
 2. run the development server:
 
