@@ -101,7 +101,7 @@ const PendingTransactionsPage: NextPage = () => {
         columns={columns}
         pagination={{
           defaultPageSize: 30,
-          pageSizeOptions: ['10', '20', '30', '50', '100'],
+          pageSizeOptions: ['10', '20', '30', '50', '100', `${data ? data.pendingTransactions : 0}`],
           showSizeChanger: true,
           position: ["topRight", "bottomRight"]
         }}
