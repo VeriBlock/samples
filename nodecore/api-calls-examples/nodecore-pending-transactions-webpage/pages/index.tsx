@@ -39,14 +39,6 @@ const PendingTransactionsPage: NextPage = () => {
       ),
     },
     {
-      title: "Type",
-      dataIndex: "type",
-      key: "type",
-      sortDirections: ["descend", "ascend"] as Array<SortOrder>,
-      sorter: (a: ITransactionWithFeePerByteAndGmtDate, b: ITransactionWithFeePerByteAndGmtDate) =>
-        a.type.localeCompare(b.type)
-    },
-    {
       title: "Source Address",
       dataIndex: "sourceAddress",
       key: "sourceAddress",
