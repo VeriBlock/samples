@@ -55,6 +55,8 @@ export const fetchPendingTransactions = async () => {
     }
 }
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const pendingTransactions = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(200).json(await fetchPendingTransactions());
 };
+
+export default pendingTransactions;

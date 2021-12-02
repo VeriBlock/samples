@@ -1,6 +1,3 @@
-/* eslint-disable  @typescript-eslint/no-non-null-assertion */
-/* eslint-disable  @typescript-eslint/no-explicit-any */
-
 import { IJsonRPC } from 'models/IJsonRPC';
 import { isJsonValid } from 'utils/utils';
 

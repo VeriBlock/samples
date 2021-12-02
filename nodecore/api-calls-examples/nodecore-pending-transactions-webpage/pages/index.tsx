@@ -93,7 +93,7 @@ const PendingTransactionsPage: NextPage = () => {
         columns={columns}
         pagination={{
           defaultPageSize: 30,
-          pageSizeOptions: ['10', '20', '30', '50', '100', `${data ? data.pendingTransactions : 0}`],
+          pageSizeOptions: ['10', '20', '30', '50', '100', `${data ? data.pendingTransactions.length : 0}`].sort((a, b) => Number(a) - Number(b)),
           showSizeChanger: true,
           position: ["topRight", "bottomRight"]
         }}
