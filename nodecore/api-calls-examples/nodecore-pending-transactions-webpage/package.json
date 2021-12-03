@@ -1,12 +1,15 @@
 {
     "name": "nodecore-pending-transactions-webpage",
+    "version": "1.0.3",
     "private": true,
     "engines": {
         "node": ">=15.14.0"
     },
     "scripts": {
-        "dev": "next dev",
-        "build": "next build",
+        "set_version": "yarn version --patch",
+        "get_version": "echo $npm_package_version",
+        "dev": "NEXT_PUBLIC_VERSION=$(echo $npm_package_version) next dev",
+        "build": "NEXT_PUBLIC_VERSION=$(echo $npm_package_version) next build",
         "start": "next start",
         "lint": "next lint"
     },
@@ -20,7 +23,7 @@
         "swr": "^1.1.0"
     },
     "devDependencies": {
-        "@types/node": "16.11.9",
+        "@types/node": "^16.11.11",
         "@types/react": "17.0.36",
         "eslint": "7",
         "eslint-config-next": "12.0.4",

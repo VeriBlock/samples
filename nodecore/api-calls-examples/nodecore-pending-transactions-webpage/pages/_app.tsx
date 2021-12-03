@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Component {...pageProps} />
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>{company} © {(new Date()).getFullYear()} | <a href={GITHUB_REPO} target="_blank"
+        <Footer style={{ textAlign: "center" }}>{company} © {(new Date()).getFullYear()}  | v.{process.env.NEXT_PUBLIC_VERSION} | <a href={GITHUB_REPO} target="_blank"
           rel="noreferrer" style={{ textDecoration: "none", color: "black" }}><GithubOutlined /> Github Repository</a></Footer>
       </Layout>
     </>
