@@ -18,6 +18,7 @@ export interface ITransaction {
     txId: string;
 }
 
-export interface ITransactionWithFeePerByte extends ITransaction {
+export interface ITransactionWithFeePerByteAndGmtDate extends ITransaction {
     feePerByte: number;
+    gmtDate: string;
 }

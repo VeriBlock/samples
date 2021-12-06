@@ -1,8 +1,7 @@
-/* eslint-disable  @typescript-eslint/no-non-null-assertion */
-/* eslint-disable  @typescript-eslint/no-explicit-any */
-
 import { IJsonRPC } from 'models/IJsonRPC';
 import { isJsonValid } from 'utils/utils';
+
+export const fetcher = (url: RequestInfo) => fetch(url).then(r => r.json())
 
 export const request = async <T>(method: string, params = {}): Promise<T> => {
     

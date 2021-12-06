@@ -1,40 +1,31 @@
-import { Alert, Table } from "antd";
-import { SortOrder } from "antd/lib/table/interface";
-import { getPendingTransactions } from "api/pendingTransactions";
-import { IFailureResponse } from "models/IFailureResponse";
-import { IPendingTransactions } from "models/IPendingTransactions";
-import { ITableFilter } from "models/ITableFilter";
-import { ITransactionWithFeePerByte } from "models/ITransaction";
-import type { GetStaticProps, NextPage } from "next";
-import React from "react";
-import { EXPLORER_TX_SEARCH_URL } from "utils/constants";
+import { Alert, Table } from 'antd';
+import { SortOrder } from 'antd/lib/table/interface';
+import { ITransactionWithFeePerByteAndGmtDate } from 'models/ITransaction';
+import moment from 'moment';
+import React from 'react';
+import { EXPLORER_TX_SEARCH_URL } from 'utils/constants';
 
-interface PendingTransactionsPageProps {
-  pendingTransactions: Array<ITransactionWithFeePerByte>;
-  txIdFilters: Array<ITableFilter>;
-  sourceAddressFilters: Array<ITableFilter>;
-  isLoading: boolean;
-  hasError: boolean;
-  errorMsg: string;
-}
+import type { NextPage } from "next";
+import { IPendingTransactionsPage } from 'models/pageProps/IPendingTransactionsPage';
+import useSWR from 'swr';
+import { fetcher } from './api/utils';
 
-const PendingTransactionsPage: NextPage<PendingTransactionsPageProps> = ({
-  pendingTransactions,
-  txIdFilters,
-  sourceAddressFilters,
-  isLoading,
-  hasError,
-  errorMsg,
-}) => {
+
+const PendingTransactionsPage: NextPage = () => {
+  const { data } = useSWR<IPendingTransactionsPage>('/api/pendingTransactions', fetcher, {
+    // revalidate the data per second
+    refreshInterval: 1000
+  });
+
   const columns = [
     {
       title: "Transaction ID",
       dataIndex: "txId",
       key: "txId",
-      filters: txIdFilters,
+      filters: data?.txIdFilters,
       onFilter: (
         value: string | number | boolean,
-        record: ITransactionWithFeePerByte
+        record: ITransactionWithFeePerByteAndGmtDate
       ) => record.txId.startsWith(value as string),
       filterSearch: true,
       render: (txId: string) => (
@@ -51,10 +42,10 @@ const PendingTransactionsPage: NextPage<PendingTransactionsPageProps> = ({
       title: "Source Address",
       dataIndex: "sourceAddress",
       key: "sourceAddress",
-      filters: sourceAddressFilters,
+      filters: data?.sourceAddressFilters,
       onFilter: (
         value: string | number | boolean,
-        record: ITransactionWithFeePerByte
+        record: ITransactionWithFeePerByteAndGmtDate
       ) => record.sourceAddress.startsWith(value as string),
       filterSearch: true,
     },
@@ -64,7 +55,7 @@ const PendingTransactionsPage: NextPage<PendingTransactionsPageProps> = ({
       key: "feePerByte",
       sortDirections: ["descend", "ascend"] as Array<SortOrder>,
       defaultSortOrder: "descend" as SortOrder,
-      sorter: (a: ITransactionWithFeePerByte, b: ITransactionWithFeePerByte) =>
+      sorter: (a: ITransactionWithFeePerByteAndGmtDate, b: ITransactionWithFeePerByteAndGmtDate) =>
         a.feePerByte - b.feePerByte,
       render: (feePerByte: number) => feePerByte.toFixed(8),
     },
@@ -73,7 +64,7 @@ const PendingTransactionsPage: NextPage<PendingTransactionsPageProps> = ({
       dataIndex: "transactionFee",
       key: "transactionFee",
       sortDirections: ["descend", "ascend"] as Array<SortOrder>,
-      sorter: (a: ITransactionWithFeePerByte, b: ITransactionWithFeePerByte) =>
+      sorter: (a: ITransactionWithFeePerByteAndGmtDate, b: ITransactionWithFeePerByteAndGmtDate) =>
         a.transactionFee - b.transactionFee,
     },
     {
@@ -81,69 +72,37 @@ const PendingTransactionsPage: NextPage<PendingTransactionsPageProps> = ({
       dataIndex: "size",
       key: "size",
       sortDirections: ["descend", "ascend"] as Array<SortOrder>,
-      sorter: (a: ITransactionWithFeePerByte, b: ITransactionWithFeePerByte) =>
+      sorter: (a: ITransactionWithFeePerByteAndGmtDate, b: ITransactionWithFeePerByteAndGmtDate) =>
         a.size - b.size,
     },
+    {
+      title: "Date (GMT)",
+      dataIndex: "gmtDate",
+      key: "gmtDate",
+      sortDirections: ["descend", "ascend"] as Array<SortOrder>,
+      sorter: (a: ITransactionWithFeePerByteAndGmtDate, b: ITransactionWithFeePerByteAndGmtDate) =>
+        moment(a.gmtDate).unix() - moment(b.gmtDate).unix(),
+    },
   ];
-
+  
   return (
-    <>
-      {hasError && (<Alert message={errorMsg} type="error" />)}
+    <section>
+      {data?.hasError && (<Alert message={data?.errorMsg} type="error" />)}
       <Table
-        loading={isLoading}
+        loading={data?.isLoading}
         columns={columns}
-        dataSource={pendingTransactions}
+        pagination={{
+          defaultPageSize: 30,
+          pageSizeOptions: ['10', '20', '30', '50', '100', `${data ? data.pendingTransactions.length : 0}`].sort((a, b) => Number(a) - Number(b)),
+          showSizeChanger: true,
+          position: ["topRight", "bottomRight"]
+        }}
+        dataSource={data?.pendingTransactions}
         rowKey="txId"
       />
-    </>
+      <div>Last Update: {(new Date()).toUTCString()}</div>
+    </section>
   );
-};
-
-export const getStaticProps: GetStaticProps = async () => {
-  try {
-    const pendingTransactionsResponse: IPendingTransactions =
-      await getPendingTransactions();
-
-    return {
-      props: {
-        pendingTransactions: (
-          pendingTransactionsResponse as IPendingTransactions
-        ).transactions.map(
-          (transaction) =>
-          ({
-            ...transaction,
-            feePerByte: transaction.transactionFee / transaction.size,
-          } as ITransactionWithFeePerByte)
-        ),
-        txIdFilters: (
-          pendingTransactionsResponse as IPendingTransactions
-        ).transactions.map((transaction) => ({
-          text: transaction.txId,
-          value: transaction.txId,
-        })),
-        sourceAddressFilters: (
-          pendingTransactionsResponse as IPendingTransactions
-        ).transactions.map((transaction) => ({
-          text: transaction.sourceAddress,
-          value: transaction.sourceAddress,
-        })),
-        isLoading: false,
-        hasError: false,
-        errorMsg: "",
-      },
-    };
-  } catch (err) {
-    return {
-      props: {
-        pendingTransactions: [],
-        txIdFilters: [],
-        sourceAddressFilters: [],
-        isLoading: false,
-        hasError: true,
-        errorMsg: (err as IFailureResponse).message,
-      },
-    };
-  }
 };
 
 export default PendingTransactionsPage;

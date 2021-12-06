@@ -1,8 +1,11 @@
-import "../styles/globals.css";
+import '../styles/globals.css';
+
+import { Layout } from 'antd';
+import Head from 'next/head';
+import React from 'react';
+import { GithubOutlined } from '@ant-design/icons';
 import type { AppProps } from "next/app";
-import React from "react";
-import { Layout } from "antd";
-import Head from "next/head";
+import { GITHUB_REPO } from 'utils/constants';
 
 const { Header, Content, Footer } = Layout;
 
@@ -27,7 +30,8 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Component {...pageProps} />
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>{company} © 2021</Footer>
+        <Footer style={{ textAlign: "center" }}>{company} © {(new Date()).getFullYear()}  | v.{process.env.NEXT_PUBLIC_VERSION} | <a href={GITHUB_REPO} target="_blank"
+          rel="noreferrer" style={{ textDecoration: "none", color: "black" }}><GithubOutlined /> Github Repository</a></Footer>
       </Layout>
     </>
   );
