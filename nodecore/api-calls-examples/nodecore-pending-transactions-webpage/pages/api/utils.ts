@@ -4,6 +4,9 @@ import { isJsonValid } from 'utils/utils';
 export const fetcher = (url: RequestInfo) => fetch(url).then(r => r.json())
 
 export const request = async <T>(method: string, params = {}): Promise<T> => {
+
+    console.log(`process.env.NODECORE_API_URL: |${process.env.NODECORE_API_URL}|`);
+    console.log(`process.env.NODECORE_API_PWD: |${process.env.NODECORE_API_PWD}|`);
     
     if (!process.env.NODECORE_API_URL) {
         return Promise.reject({
